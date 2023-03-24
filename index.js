@@ -1,14 +1,11 @@
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+require("dotenv").config()
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
-
-const { v4: uuidV4 } = require("uuid");
-const port = 3000;
-const host = "http://localhost:" + port;
 
 app.set("view engine", "pug");
 app.use(express.static("public"));
@@ -58,4 +55,4 @@ app.use((_err, _req, res, _next) => {
    res.status(500).send("500 Error");
 });
 
-httpServer.listen(port, () => console.log(`Server runs at ${host}`));
+httpServer.listen(process.env.PORT, () => console.log(`Server started`));
