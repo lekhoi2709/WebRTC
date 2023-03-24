@@ -1,0 +1,39 @@
+doctype html
+html(lang="en")
+   head
+      meta(charset="UTF-8")
+      meta(http-equiv="X-UA-Compatible", content="IE=edge")
+      meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      title Document
+      block script
+         script.
+            const ROOM_ID = '#{roomId}'
+            const USER = '#{user}'
+      script(src='https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js' defer)
+      script(src='https://cdn.socket.io/4.5.4/socket.io.min.js' defer)
+      script(src="/client.js" defer)
+      style
+         include ../public/css/room.css
+
+   body
+      div(id="container")
+         main(id="main-section")
+            div(id="main-container")
+               div(id="title-container")
+                  h1 Room #{roomId}
+                  p(id="username") #{user}
+               section(class="vid-container")
+                  section(class="video-section")
+                     div(id="remote-vid")
+                     div(class="sub-vid")
+                        div(id="local-vid")
+                        div(id="remote-vid-2")
+                  section(class="control-section")
+                     div(id="control")
+         section(id="message-container")
+            div(class="output")
+               div(id="output-message")
+               div(id="typing")
+            div(id="input-message")
+               input(name="message" id="message" rows="4" cols="50" placeholder="Enter your message")
+               button(id="button") Send
