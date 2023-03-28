@@ -10,7 +10,6 @@ const message = document.getElementById("message")
 const button = document.getElementById("button")
 const output = document.getElementById("output-message")
 const typing = document.getElementById("typing")
-// const home = document.getElementById("home")
 
 message.addEventListener("keypress", function (event) {
    socket.emit("user-typing", ROOM_ID, USER)
@@ -20,8 +19,6 @@ message.addEventListener("keypress", function (event) {
    }
 });
 
-
-
 button.addEventListener('click', () => {
    socket.emit("user-message", ROOM_ID, {
       user: USER,
@@ -29,17 +26,6 @@ button.addEventListener('click', () => {
    })
    message.value = ""
 })
-
-// home.addEventListener('click', () => {
-//    socket.emit("disconnect", ROOM_ID, USER)
-//    socket.on("leave-room", (username) => {
-//       output.innerHTML += '<p><strong>' + username + ' has left this room' + '</strong></p>'
-//    });
-// })
-
-// peerConnection.on("open", (userId) => {
-//   socket.emit("join-room", ROOM_ID, userId);
-// });
 
 socket.on("user-connected", (username) => {
    output.innerHTML += '<p><strong>' + username + ' has joined this room' + '</strong></p>'
@@ -53,3 +39,38 @@ socket.on("message", (data) => {
 socket.on("typing", (data) => {
    typing.innerHTML = '<p><em>' + data + ' is typing ...' + "</em></p>"
 })
+
+// Peer, call video
+var localStream
+
+function getLocalVideo() {
+   var constraint = {
+      audio: true,
+      video: true
+   }
+
+   var mediaDevices = navigator.mediaDevices
+   if (!mediaDevices || !mediaDevices.getUserMedia) {
+      console.log("getUserMedia() not supported")
+      return
+   }
+
+   mediaDevices.getUserMedia(constraint).then(function (stream) {
+      var localVideo = document.getElementById("local-vid")
+      localStream = stream
+
+      if ("srcObject" in localVideo) {
+         localVideo.srcObject = localStream
+      } else {
+         localVideo.src = window.URL.createObjectURL(localStream)
+      }
+
+      localVideo.onloadeddata = function (e) {
+         localVideo.play()
+      }
+   }).catch(function (e) {
+      console.log(e)
+   })
+}
+
+getLocalVideo()
