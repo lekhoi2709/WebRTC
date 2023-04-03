@@ -55,4 +55,10 @@ app.use((_err, _req, res, _next) => {
    res.status(500).send("500 Error");
 });
 
-httpServer.listen(process.env.PORT, () => console.log(`Server started`));
+if (process.env.NODE_ENV === "production") {
+   httpServer.listen(process.env.PORT, () => console.log("Server started"));
+}
+
+else {
+   httpServer.listen(process.env.PORT, () => console.log(`Server started at http://localhost:` + process.env.PORT));
+}
