@@ -1,16 +1,16 @@
+// Web socket: Chat room
 const socket = io();
-// const peerConnection = new Peer(undefined, {
-//    host: "localhost",
-//    port: "3001",
-// });
 
+// enter room with id and username
 socket.emit("join-room", ROOM_ID, USER)
 
+// Get element section
 const message = document.getElementById("message")
 const button = document.getElementById("button")
 const output = document.getElementById("output-message")
 const typing = document.getElementById("typing")
 
+// add event on typing message
 message.addEventListener("keypress", function (event) {
    socket.emit("user-typing", ROOM_ID, USER)
    if (event.key === "Enter") {
@@ -19,6 +19,7 @@ message.addEventListener("keypress", function (event) {
    }
 });
 
+// click send message event
 button.addEventListener('click', () => {
    socket.emit("user-message", ROOM_ID, {
       user: USER,
@@ -27,6 +28,7 @@ button.addEventListener('click', () => {
    message.value = ""
 })
 
+// on event
 socket.on("user-connected", (username) => {
    output.innerHTML += '<p><strong>' + username + ' has joined this room' + '</strong></p>'
 });
@@ -40,7 +42,17 @@ socket.on("typing", (data) => {
    typing.innerHTML = '<p><em>' + data + ' is typing ...' + "</em></p>"
 })
 
-// Peer, call video
+// PeerJS: Video call
+// Create the Peer object
+var peer = new Peer(ROOM_ID)
+
+// Peer(room) id
+peer.on('open', function (id) {
+   console.log("My peer id: " + id)
+   output.innerHTML += "<p>Your room ID: <br>" + id + "<br>" + "Copy it and send to your friends to connect. </p>"
+})
+
+// Get local stream and attact it to video element
 var localStream
 
 function getLocalVideo() {

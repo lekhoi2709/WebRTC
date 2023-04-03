@@ -14,9 +14,11 @@ html(lang="en")
       div(id="container")
          main(id="form-container")
             h1(style="color: #250425; font-size: 30px; text-shadow: white 1px 0;") Welcome to Web RTC
-            form(id="form")
+            form(id="form" method="POST")
                input(id="name" placeholder="Enter name" name="name" required)
-               input(id="room" placeholder="Room id" name="roomId" required)
+               div(style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;")
+                  input(id="room" placeholder="Room id" name="roomId")
+                  p Leave blank if you want to start a new room
                button(type="submit" id="button")
                   span ENTER
                   span

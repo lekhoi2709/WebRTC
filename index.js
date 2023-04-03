@@ -1,6 +1,7 @@
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const ShortUniqueId = require("short-unique-id")
 require("dotenv").config()
 
 const app = express();
@@ -12,11 +13,23 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-   if (req.query.roomId) {
+   if (req.query.name) {
       return res.redirect(`/${req.query.roomId}?name=${req.query.name}`);
    }
    return res.render("home");
 });
+
+app.post("/", (req, res) => {
+   const { roomId, name } = req.body
+   if (name && roomId) {
+      return res.redirect(`/${roomId}?name=${name}`);
+   } else if (roomId === "") {
+      const suid = new ShortUniqueId({ length: 10 })
+      const newid = suid()
+      return res.redirect(`/${newid}?name=${name}`)
+   }
+   return res.redirect("/")
+})
 
 app.get("/:room", (req, res) => {
    res.render("room", { roomId: req.params.room, user: req.query.name });
@@ -55,10 +68,10 @@ app.use((_err, _req, res, _next) => {
    res.status(500).send("500 Error");
 });
 
-if (process.env.NODE_ENV === "production") {
-   httpServer.listen(process.env.PORT, () => console.log("Server started"));
+if (process.env.NODE_ENV === "development") {
+   httpServer.listen(process.env.PORT, () => console.log(`Server started at http://localhost:` + process.env.PORT));
 }
 
 else {
-   httpServer.listen(process.env.PORT, () => console.log(`Server started at http://localhost:` + process.env.PORT));
+   httpServer.listen(process.env.PORT, () => console.log("Server started"));
 }
