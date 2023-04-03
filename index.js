@@ -13,9 +13,6 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-   if (req.query.name) {
-      return res.redirect(`/${req.query.roomId}?name=${req.query.name}`);
-   }
    return res.render("home");
 });
 
@@ -33,7 +30,7 @@ app.post("/", (req, res) => {
 
 app.get("/:room", (req, res) => {
    res.render("room", { roomId: req.params.room, user: req.query.name });
-});
+})
 
 io.on("connection", (socket) => {
    console.log("A client has connected: " + socket.id);

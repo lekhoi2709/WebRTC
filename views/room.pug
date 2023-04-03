@@ -4,14 +4,15 @@ html(lang="en")
       meta(charset="UTF-8")
       meta(http-equiv="X-UA-Compatible", content="IE=edge")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
-      title Room #{roomId}
+      title Chat Video
       block script
          script.
+            //- const PEER_ID = '#{peerId}'
             const ROOM_ID = '#{roomId}'
             const USER = '#{user}'
       script(src='https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js' defer)
       script(src='https://cdn.socket.io/4.5.4/socket.io.min.js' defer)
-      script(src="/client.js" defer)
+      script(src="/js/client.js" defer)
       style
          include ../public/css/room.css
 
@@ -20,16 +21,19 @@ html(lang="en")
          main(id="main-section")
             div(id="main-container")
                div(id="title-container")
-                  h1 Room #{roomId}
+                  h1 Chat Video
                   p(id="username") #{user}
                section(class="vid-container")
                   section(class="video-section")
                      video(id="remote-vid" autoplay muted)
                      div(class="sub-vid")
                         video(id="local-vid" autoplay muted)
-                        video(id="remote-vid-2" autoplay muted)
                   section(class="control-section")
-                     div(id="control")
+                     div(style="display: flex; gap: 10px; align-items: center; width: 100%")
+                        input(name="connId" type="text" id="connId" placeholder="Connection ID")
+                        button(id="connect") Connect
+                     button(id="call") Call
+                     button(id="declined") Declined
          section(id="message-container")
             div(class="output")
                div(id="output-message")
