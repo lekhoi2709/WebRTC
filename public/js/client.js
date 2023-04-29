@@ -59,7 +59,6 @@ peer.on('open', function (id) {
 peer.on("connection", function (conn) {
    peerConnection = conn
    peer_id = conn.peer
-
    document.getElementById("connId").value = peer_id
 })
 
