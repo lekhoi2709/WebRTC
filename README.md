@@ -10,6 +10,6 @@
 
 ## OR
 
-Use our deployed app at: [this link](webrtc-production-4cbd.up.railway.app)
+Use our deployed app at: [this link](https://webrtc-production-4cbd.up.railway.app)
 
 But remember, it will expire in the next 400 hours
