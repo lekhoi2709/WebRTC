@@ -7,9 +7,3 @@
 4. (Important) Create file .env and set the `PORT=8080` or any other port you want
 5. Run `npm run dev` and start the server
 6. Go to http://localhost:8080 to use our WebRTC
-
-## OR
-
-Use our deployed app at: [this link](https://webrtc-production-4cbd.up.railway.app)
-
-But remember, it will expire in the next 400 hours
